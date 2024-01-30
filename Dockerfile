@@ -1,4 +1,4 @@
-FROM dremio/dremio-oss:24.3.0
+FROM dremio/dremio-oss:24.3.2
 USER root
 COPY dremio-env-profile /opt/dremio/conf/dremio-env
 COPY --from=hengyunabc/arthas:latest /opt/arthas /opt/arthas

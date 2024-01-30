@@ -56,11 +56,6 @@ services:
       - "9049:9047"
       - "31012:31010"
       - "9092:9090"
-  dremio_executor_3:
-    build: .
-    volumes:
-      - ./conf/dremio_exec.conf:/opt/dremio/conf/dremio.conf
-      - ./datas:/myappdemo
   pg:
     image: postgres:16.0
     ports:
