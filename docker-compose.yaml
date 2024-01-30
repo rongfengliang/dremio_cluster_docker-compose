@@ -1,0 +1,79 @@
+version: "3"
+services:
+  zk:
+    image: zookeeper
+    ports:
+      - 2181:2181
+  mysql:
+    image: mysql:5.6
+    command: --character-set-server=utf8
+    ports:
+      - "3308:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=dalong
+      - MYSQL_USER=boss
+      - MYSQL_DATABASE=boss
+      - MYSQL_PASSWORD=dalong
+  minio:
+    image: minio/minio
+    ports:
+      - "9000:9000"
+      - "19001:19001"
+    environment:
+      MINIO_ACCESS_KEY: minio
+      MINIO_SECRET_KEY: minio123
+    command: server --console-address :19001 --quiet /data
+  dremio_coordinator:
+    build: .
+    hostname: dremio-coordinator
+    container_name: dremio-coordinator
+    volumes:
+      - ./conf/dremio_coor.conf:/opt/dremio/conf/dremio.conf
+      - ./datas:/myappdemo
+    ports:
+      - "9047:9047"
+      - "31010:31010"
+      - "9090:9090"
+  dremio_executor_1:
+    build: .
+    hostname: dremio-executor-1
+    container_name: dremio-executor-1
+    volumes:
+      - ./conf/dremio_exec.conf:/opt/dremio/conf/dremio.conf
+      - ./datas:/myappdemo
+    ports:
+      - "9048:9047"
+      - "31011:31010"
+      - "9091:9090"
+  dremio_executor_2:
+    build: .
+    hostname: dremio_executor_2
+    container_name: dremio_executor_2
+    volumes:
+      - ./conf/dremio_exec.conf:/opt/dremio/conf/dremio.conf
+      - ./datas:/myappdemo
+    ports:
+      - "9049:9047"
+      - "31012:31010"
+      - "9092:9090"
+  dremio_executor_3:
+    build: .
+    volumes:
+      - ./conf/dremio_exec.conf:/opt/dremio/conf/dremio.conf
+      - ./datas:/myappdemo
+  pg:
+    image: postgres:16.0
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_PASSWORD=dalongdemo
+  nessie:
+    image: projectnessie/nessie:0.75.0-java
+    environment:
+      - NESSIE_VERSION_STORE_TYPE=JDBC
+      - QUARKUS.DATASOURCE.USERNAME=postgres
+      - QUARKUS.DATASOURCE.PASSWORD=dalongdemo
+      - QUARKUS_DATASOURCE_JDBC_URL=jdbc:postgresql://pg:5432/postgres
+    ports:
+      - "19120:19120"
+      - "19121:19121"
