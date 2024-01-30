@@ -45,17 +45,6 @@ services:
       - "9048:9047"
       - "31011:31010"
       - "9091:9090"
-  dremio_executor_2:
-    build: .
-    hostname: dremio_executor_2
-    container_name: dremio_executor_2
-    volumes:
-      - ./conf/dremio_exec.conf:/opt/dremio/conf/dremio.conf
-      - ./datas:/myappdemo
-    ports:
-      - "9049:9047"
-      - "31012:31010"
-      - "9092:9090"
   pg:
     image: postgres:16.0
     ports:
