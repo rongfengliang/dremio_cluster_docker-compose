@@ -1,6 +1,6 @@
 tracing:
   type: opentelemetry
-  serviceName: mydremio
+  serviceName: mydremio-exec
   samplerType: on
   collectorEndpoint: http://tempo:4317
   # samplerEndpoint: http://localhost:4317
