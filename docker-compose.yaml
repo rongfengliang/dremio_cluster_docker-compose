@@ -53,10 +53,23 @@ services:
     volumes:
       - ./conf/dremio_coor.conf:/opt/dremio/conf/dremio.conf
       - ./datas:/myappdemo
+      - ./data:/opt/dremio/data
     ports:
       - "9047:9047"
       - "31010:31010"
       - "9090:9090"
+  # dremio_coordinator-2:
+  #   build: .
+  #   hostname: dremio-coordinator2
+  #   container_name: dremio-coordinator2
+  #   volumes:
+  #     - ./conf/dremio_coor2.conf:/opt/dremio/conf/dremio.conf
+  #     - ./datas:/myappdemo
+  #     - ./data:/opt/dremio/data
+  #   ports:
+  #     - "9057:9047"
+  #     - "31020:31010"
+  #     - "9100:9090"
   dremio_executor_1:
     build: .
     hostname: dremio-executor-1
@@ -69,6 +82,14 @@ services:
       - "9048:9047"
       - "31011:31010"
       - "9091:9090"
+  dremio_executor_2:
+    build: .
+    hostname: dremio-executor-2
+    container_name: dremio-executor-2
+    volumes:
+      - ./conf/dremio_exec.conf:/opt/dremio/conf/dremio.conf
+      - ./dremio-telemetry-exec.yaml:/opt/dremio/conf/dremio-telemetry.yaml
+      - ./datas:/myappdemo
   pg:
     image: postgres:16.0
     ports:
