@@ -50,6 +50,9 @@ services:
     build: .
     hostname: dremio-coordinator
     container_name: dremio-coordinator
+    privileged: true
+    cap_add:
+      - ALL
     volumes:
       - ./conf/dremio_coor.conf:/opt/dremio/conf/dremio.conf
       - ./datas:/myappdemo
@@ -74,6 +77,9 @@ services:
     build: .
     hostname: dremio-executor-1
     container_name: dremio-executor-1
+    privileged: true
+    cap_add:
+      - ALL
     volumes:
       - ./conf/dremio_exec.conf:/opt/dremio/conf/dremio.conf
       - ./dremio-telemetry-exec.yaml:/opt/dremio/conf/dremio-telemetry.yaml
